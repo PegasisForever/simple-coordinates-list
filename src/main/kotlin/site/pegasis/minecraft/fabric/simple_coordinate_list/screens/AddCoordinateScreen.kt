@@ -10,6 +10,8 @@ import site.pegasis.minecraft.fabric.simple_coordinate_list.*
 
 
 class AddCoordinateScreen(private val pos: Vec3d) : Screen(Text.of("Add Coordinate")) {
+    override fun isPauseScreen() = false
+
     override fun init() {
         val labelTextField = kotlin.run {
             val textFieldWidth = 300
@@ -34,7 +36,7 @@ class AddCoordinateScreen(private val pos: Vec3d) : Screen(Text.of("Add Coordina
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        this.renderBackground(matrices)
+        renderBackground(matrices)
 
         val posText = "Your coordinates: " + pos.toHumanText()
         val posTextWidth = posText.getWidth(client!!)
@@ -46,6 +48,6 @@ class AddCoordinateScreen(private val pos: Vec3d) : Screen(Text.of("Add Coordina
     }
 
     override fun renderBackground(matrices: MatrixStack?) {
-        this.fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680)
+        fillGradient(matrices, 0, 0, this.width, this.height, -1072689136, -804253680)
     }
 }

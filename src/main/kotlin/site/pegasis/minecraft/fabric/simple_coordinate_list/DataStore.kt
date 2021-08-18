@@ -105,11 +105,21 @@ object DataStore {
         }
         list.add(coordinateItem)
 
+        save(identifier)
+    }
+
+    fun removeCoordinate(identifier: WorldIdentifier, coordinateItem: CoordinateItem) {
+        coordinateCache[identifier]!!.remove(coordinateItem)
+
+        save(identifier)
+    }
+
+    private fun save(identifier: WorldIdentifier) {
         val jsonFile = identifier.getJSONFile()
         if (!jsonFile.exists()) {
             jsonFile.parentFile?.mkdirs()
             jsonFile.createNewFile()
         }
-        jsonFile.writeText(serializer.encodeToString(list))
+        jsonFile.writeText(serializer.encodeToString(coordinateCache[identifier]))
     }
 }

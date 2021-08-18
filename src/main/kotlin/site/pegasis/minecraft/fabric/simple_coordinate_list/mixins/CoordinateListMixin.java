@@ -11,7 +11,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import site.pegasis.minecraft.fabric.simple_coordinate_list.screens.RenderHUDKt;
+import site.pegasis.minecraft.fabric.simple_coordinate_list.screens.RemoveCoordinateScreen;
+import site.pegasis.minecraft.fabric.simple_coordinate_list.screens.RenderCoordinateListKt;
 
 @Environment(EnvType.CLIENT)
 @Mixin(value = InGameHud.class)
@@ -25,7 +26,9 @@ public abstract class CoordinateListMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void onDraw(MatrixStack matrixStack, float esp, CallbackInfo ci) {
-        RenderHUDKt.renderHUD(matrixStack, client, scaledWidth);
+        if (!(client.currentScreen instanceof RemoveCoordinateScreen)) {
+            RenderCoordinateListKt.renderCoordinateList(matrixStack, client, scaledWidth);
+        }
     }
 }
 

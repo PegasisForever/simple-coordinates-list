@@ -14,6 +14,11 @@ val mavenGroup: String by project
 group = mavenGroup
 minecraft {}
 repositories {}
+sourceSets {
+    named("main") {
+        java.srcDir("src/main/kotlin")
+    }
+}
 dependencies {
     val minecraftVersion: String by project
     minecraft("com.mojang:minecraft:$minecraftVersion")

@@ -7,8 +7,10 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import site.pegasis.minecraft.fabric.simple_coordinate_list.*
 
-fun renderHUD(matrixStack: MatrixStack,client: MinecraftClient,scaledWidth: Int){
-    val coordinates = DataStore.getCoordinates(WorldIdentifier.from(client))
+fun getCoordinates(client: MinecraftClient) = DataStore.getCoordinates(WorldIdentifier.from(client))
+
+fun renderCoordinateList(matrixStack: MatrixStack, client: MinecraftClient, scaledWidth: Int) {
+    val coordinates = getCoordinates(client)
     if (!client.options.debugEnabled && coordinates.isNotEmpty()) {
         RenderSystem.enableBlend()
         val labelLines = coordinates.map { (_, label) ->
