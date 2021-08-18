@@ -1,20 +1,20 @@
-package site.pegasis.minecraft.fabric.simple_coordinate_list.screens
+package site.pegasis.minecraft.fabric.simple_coordinates_list.screens
 
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
-import site.pegasis.minecraft.fabric.simple_coordinate_list.*
-import site.pegasis.minecraft.fabric.simple_coordinate_list.config.Config
+import site.pegasis.minecraft.fabric.simple_coordinates_list.*
+import site.pegasis.minecraft.fabric.simple_coordinates_list.config.Config
 
-fun getCoordinates(client: MinecraftClient) = DataStore.getCoordinates(WorldIdentifier.from(client))
+fun getCoordinatesList(client: MinecraftClient) = DataStore.getCoordinatesList(WorldIdentifier.from(client))
 
-fun renderCoordinateList(matrixStack: MatrixStack, client: MinecraftClient, scaledWidth: Int) {
-    val coordinates = getCoordinates(client)
-    if (!client.options.debugEnabled && coordinates.isNotEmpty()) {
+fun renderCoordinatesList(matrixStack: MatrixStack, client: MinecraftClient, scaledWidth: Int) {
+    val coordinatesList = getCoordinatesList(client)
+    if (!client.options.debugEnabled && coordinatesList.isNotEmpty()) {
         RenderSystem.enableBlend()
-        val labelLines = coordinates.map { (_, label) ->
+        val labelLines = coordinatesList.map { (_, label) ->
             if (label.isEmpty()) {
                 ""
             } else {
@@ -22,7 +22,7 @@ fun renderCoordinateList(matrixStack: MatrixStack, client: MinecraftClient, scal
             }
         }
 
-        val posLines = coordinates.map { it.pos.toHumanText() }
+        val posLines = coordinatesList.map { it.pos.toHumanText() }
         val posLinesWidth = posLines.maxOf { it.getWidth(client) }
 
         val lineHeight = client.textRenderer.fontHeight + 2
@@ -42,7 +42,7 @@ fun renderCoordinateList(matrixStack: MatrixStack, client: MinecraftClient, scal
             )
 
             val currPos = client.player!!.pos
-            val targetPos = coordinates[i].pos
+            val targetPos = coordinatesList[i].pos
             val targetDegree = currPos.angleTo(targetPos) - 90
             val currFacingDegree = client.player!!.yaw
             var d = (currFacingDegree - targetDegree + 180) % 360

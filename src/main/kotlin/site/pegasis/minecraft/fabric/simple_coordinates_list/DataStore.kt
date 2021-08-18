@@ -1,4 +1,4 @@
-package site.pegasis.minecraft.fabric.simple_coordinate_list
+package site.pegasis.minecraft.fabric.simple_coordinates_list
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -28,7 +28,6 @@ object Vec3dSerializer : KSerializer<Vec3d> {
         return Vec3d(surrogate.x, surrogate.y, surrogate.z)
     }
 }
-
 
 @Serializable
 sealed class WorldIdentifier {
@@ -68,21 +67,21 @@ sealed class WorldIdentifier {
 }
 
 @Serializable
-data class CoordinateItem(@Serializable(Vec3dSerializer::class) val pos: Vec3d, val label: String)
+data class Coordinates(@Serializable(Vec3dSerializer::class) val pos: Vec3d, val label: String)
 
 object DataStore {
     private val serializer = Json {
         allowStructuredMapKeys = true
     }
 
-    private var coordinateCache = hashMapOf<WorldIdentifier, ArrayList<CoordinateItem>>()
+    private var coordinateCache = hashMapOf<WorldIdentifier, ArrayList<Coordinates>>()
 
-    fun getCoordinates(identifier: WorldIdentifier): List<CoordinateItem> {
+    fun getCoordinatesList(identifier: WorldIdentifier): List<Coordinates> {
         if (coordinateCache[identifier] == null) {
             try {
                 val jsonFile = identifier.getJSONFile()
                 if (jsonFile.exists()) {
-                    val coordinateList: ArrayList<CoordinateItem> = serializer.decodeFromString(jsonFile.readText())
+                    val coordinateList: ArrayList<Coordinates> = serializer.decodeFromString(jsonFile.readText())
                     coordinateCache[identifier] = coordinateList
                 }
             } catch (e: Throwable) {
@@ -97,19 +96,19 @@ object DataStore {
         return coordinateCache[identifier]!!
     }
 
-    fun addCoordinate(identifier: WorldIdentifier, coordinateItem: CoordinateItem) {
+    fun addCoordinates(identifier: WorldIdentifier, coordinates: Coordinates) {
         var list = coordinateCache[identifier]
         if (list == null) {
             list = arrayListOf()
             coordinateCache[identifier] = list
         }
-        list.add(coordinateItem)
+        list.add(coordinates)
 
         save(identifier)
     }
 
-    fun removeCoordinate(identifier: WorldIdentifier, coordinateItem: CoordinateItem) {
-        coordinateCache[identifier]!!.remove(coordinateItem)
+    fun removeCoordinates(identifier: WorldIdentifier, coordinates: Coordinates) {
+        coordinateCache[identifier]!!.remove(coordinates)
 
         save(identifier)
     }

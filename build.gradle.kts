@@ -34,7 +34,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
     val fabricKotlinVersion: String by project
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
-    modImplementation("com.terraformersmc:modmenu:2.0.4")
+    val modmenuVersion: String by project
+    modImplementation("com.terraformersmc:modmenu:$modmenuVersion")
 }
 tasks {
     val javaVersion = JavaVersion.VERSION_16

@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "simple_coordinate_list",
+  "id": "simple_coordinates_list",
   "version": "1.0.0",
-  "name": "Simple Coordinate List",
+  "name": "Simple Coordinates List",
   "description": "Allow you to save coordinates to a list",
   "authors": [
-    "Pegasis"
+    "Pegasis",
+    "Alex_Xu"
   ],
   "contact": {
     "homepage": "https://example.com/",
@@ -13,21 +14,21 @@
     "sources": "https://example.com/"
   },
   "license": "WTFPL",
-  "icon": "assets/simple_coordinate_list/icon.png",
+  "icon": "assets/simple_coordinates_list/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
       {
         "adapter": "kotlin",
-        "value": "site.pegasis.minecraft.fabric.simple_coordinate_list.Main"
+        "value": "site.pegasis.minecraft.fabric.simple_coordinates_list.Main"
       }
     ],
     "modmenu": [
-      "site.pegasis.minecraft.fabric.simple_coordinate_list.config.ModMenu"
+      "site.pegasis.minecraft.fabric.simple_coordinates_list.config.ModMenu"
     ]
   },
   "mixins": [
-    "simple_coordinate_list.mixins.json"
+    "simple_coordinates_list.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.11.6",

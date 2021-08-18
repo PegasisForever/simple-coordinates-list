@@ -1,20 +1,19 @@
-package site.pegasis.minecraft.fabric.simple_coordinate_list.screens
+package site.pegasis.minecraft.fabric.simple_coordinates_list.screens
 
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
-import site.pegasis.minecraft.fabric.simple_coordinate_list.*
-import site.pegasis.minecraft.fabric.simple_coordinate_list.config.Config
+import site.pegasis.minecraft.fabric.simple_coordinates_list.*
+import site.pegasis.minecraft.fabric.simple_coordinates_list.config.Config
 
-class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.gui.manage_coordinate")) {
+class ManageCoordinatesScreen : Screen(TranslatableText("${Main.MOD_ID}.gui.manage_coordinates")) {
     private val deleteButtons = arrayListOf<TexturedButtonWidget>()
     private val buttonX by lazy {
-        val coordinates = getCoordinates(client!!)
-        val labelLinesWidth = coordinates
+        val coordinatesList = getCoordinatesList(client!!)
+        val labelLinesWidth = coordinatesList
             .map { (_, label) ->
                 if (label.isEmpty()) {
                     ""
@@ -22,7 +21,7 @@ class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.g
                     "$label: "
                 }
             }.maxOf { it.getWidth(client!!) }
-        val posLinesWidth = coordinates
+        val posLinesWidth = coordinatesList
             .map { it.pos.toHumanText() }
             .maxOf { it.getWidth(client!!) }
         val lineHeight = client!!.textRenderer.fontHeight + 2
@@ -32,7 +31,7 @@ class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.g
     override fun isPauseScreen() = false
 
     override fun init() {
-        val backButton = ButtonWidget(10, 10, 50, 20, TranslatableText("simple_coordinate_list.gui.back")) {
+        val backButton = ButtonWidget(10, 10, 50, 20, TranslatableText("${Main.MOD_ID}.gui.back")) {
             client!!.setScreen(null)
         }
         addDrawableChild(backButton)
@@ -41,8 +40,8 @@ class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.g
     }
 
     private fun createDeleteButtons() {
-        val coordinates = getCoordinates(client!!)
-        if (coordinates.isEmpty()) {
+        val coordinatesList = getCoordinatesList(client!!)
+        if (coordinatesList.isEmpty()) {
             client!!.setScreen(null)
             return
         }
@@ -54,10 +53,10 @@ class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.g
 
         val lineHeight = client!!.textRenderer.fontHeight + 2
         val identifier = WorldIdentifier.from(client!!)
-        for (i in coordinates.indices) {
-            val coordinate = coordinates[i]
+        for (i in coordinatesList.indices) {
+            val coordinates = coordinatesList[i]
             val deleteButton = TexturedButtonWidget(
-                buttonX, lineHeight * i + Config.yOffset,
+                buttonX, lineHeight * i + Config.yOffset - 1,
                 9, 9,
                 0, 0,
                 9,
@@ -65,8 +64,7 @@ class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.g
                 9,
                 18
             ) {
-                println("delete $i")
-                DataStore.removeCoordinate(identifier, coordinate)
+                DataStore.removeCoordinates(identifier, coordinates)
                 createDeleteButtons()
             }
             addDrawableChild(deleteButton)
@@ -76,7 +74,7 @@ class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.g
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         renderBackground(matrices)
-        renderCoordinateList(matrices, client!!, width)
+        renderCoordinatesList(matrices, client!!, width)
         super.render(matrices, mouseX, mouseY, delta)
     }
 

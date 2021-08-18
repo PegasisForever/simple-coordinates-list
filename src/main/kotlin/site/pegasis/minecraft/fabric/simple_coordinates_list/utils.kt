@@ -1,4 +1,4 @@
-package site.pegasis.minecraft.fabric.simple_coordinate_list
+package site.pegasis.minecraft.fabric.simple_coordinates_list
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.Vec3d

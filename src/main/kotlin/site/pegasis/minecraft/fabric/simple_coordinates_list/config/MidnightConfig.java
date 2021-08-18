@@ -1,4 +1,4 @@
-package site.pegasis.minecraft.fabric.simple_coordinate_list.config;
+package site.pegasis.minecraft.fabric.simple_coordinates_list.config;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;

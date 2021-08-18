@@ -1,0 +1,13 @@
+{
+  "key.category.simple_coordinates_list": "Simple Coordinates List",
+  "key.simple_coordinates_list.add_to_list": "Add to List",
+  "key.simple_coordinates_list.remove_from_list": "Manage List",
+  "simple_coordinates_list.midnightconfig.title": "Configure Simple Coordinates List",
+  "simple_coordinates_list.midnightconfig.xOffset": "List X Offset",
+  "simple_coordinates_list.midnightconfig.yOffset": "List Y Offset",
+  "simple_coordinates_list.gui.manage_coordinates": "Manage Coordinates",
+  "simple_coordinates_list.gui.back": "< Back",
+  "simple_coordinates_list.gui.add_coordinates": "Add Coordinates",
+  "simple_coordinates_list.gui.label": "Label",
+  "simple_coordinates_list.gui.add_to_list": "Add to List"
+}
