@@ -16,7 +16,7 @@
   "icon": "assets/simple_coordinate_list/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "client": [
       {
         "adapter": "kotlin",
         "value": "site.pegasis.minecraft.fabric.simple_coordinate_list.Main"
