@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import site.pegasis.minecraft.fabric.simple_coordinate_list.*
+import site.pegasis.minecraft.fabric.simple_coordinate_list.config.Config
 
 fun getCoordinates(client: MinecraftClient) = DataStore.getCoordinates(WorldIdentifier.from(client))
 
@@ -29,14 +30,14 @@ fun renderCoordinateList(matrixStack: MatrixStack, client: MinecraftClient, scal
         for (i in labelLines.indices) {
             client.textRenderer.drawWithShadow(
                 matrixStack, labelLines[i],
-                scaledWidth - 4 - 2 - posLinesWidth - labelLines[i].getWidth(client) - lineHeight,
-                (lineHeight * i + 4).toFloat(),
+                scaledWidth + Config.xOffset - 2 - posLinesWidth - labelLines[i].getWidth(client) - lineHeight,
+                (lineHeight * i + Config.yOffset).toFloat(),
                 0xFFFFFF,
             )
             client.textRenderer.drawWithShadow(
                 matrixStack, posLines[i],
-                scaledWidth - 4 - 2 - posLinesWidth - lineHeight,
-                (lineHeight * i + 4).toFloat(),
+                scaledWidth + Config.xOffset - 2 - posLinesWidth - lineHeight,
+                (lineHeight * i + Config.yOffset).toFloat(),
                 0xFFFFFF,
             )
 
@@ -50,7 +51,7 @@ fun renderCoordinateList(matrixStack: MatrixStack, client: MinecraftClient, scal
             val compassI = (d / 11.25).toInt()
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
             RenderSystem.setShaderTexture(0, Identifier("minecraft", "textures/item/compass_${compassI.toString().padStart(2, '0')}.png"))
-            DrawableHelper.drawTexture(matrixStack, scaledWidth - 4 - lineHeight, lineHeight * i + 2, 0f, 0f, lineHeight, lineHeight, lineHeight, lineHeight)
+            DrawableHelper.drawTexture(matrixStack, scaledWidth + Config.xOffset - lineHeight, lineHeight * i + Config.yOffset - 2, 0f, 0f, lineHeight, lineHeight, lineHeight, lineHeight)
         }
     }
 }

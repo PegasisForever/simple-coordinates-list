@@ -13,7 +13,11 @@ version = modVersion
 val mavenGroup: String by project
 group = mavenGroup
 minecraft {}
-repositories {}
+repositories {
+    maven {
+        url = uri("https://maven.terraformersmc.com/releases")
+    }
+}
 sourceSets {
     named("main") {
         java.srcDir("src/main/kotlin")
@@ -30,6 +34,7 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
     val fabricKotlinVersion: String by project
     modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
+    modImplementation("com.terraformersmc:modmenu:2.0.4")
 }
 tasks {
     val javaVersion = JavaVersion.VERSION_16

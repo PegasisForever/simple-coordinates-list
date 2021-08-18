@@ -6,10 +6,8 @@ import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import site.pegasis.minecraft.fabric.simple_coordinate_list.DataStore
-import site.pegasis.minecraft.fabric.simple_coordinate_list.WorldIdentifier
-import site.pegasis.minecraft.fabric.simple_coordinate_list.getWidth
-import site.pegasis.minecraft.fabric.simple_coordinate_list.toHumanText
+import site.pegasis.minecraft.fabric.simple_coordinate_list.*
+import site.pegasis.minecraft.fabric.simple_coordinate_list.config.Config
 
 class RemoveCoordinateScreen : Screen(Text.of("Remove Coordinate")) {
     private val deleteButtons = arrayListOf<TexturedButtonWidget>()
@@ -27,7 +25,7 @@ class RemoveCoordinateScreen : Screen(Text.of("Remove Coordinate")) {
             .map { it.pos.toHumanText() }
             .maxOf { it.getWidth(client!!) }
         val lineHeight = client!!.textRenderer.fontHeight + 2
-        (width - 4 - labelLinesWidth - posLinesWidth - 10 - lineHeight - 8).toInt()
+        (width + Config.xOffset - labelLinesWidth - posLinesWidth - 10 - lineHeight - 8).toInt()
     }
 
     override fun isPauseScreen() = false
@@ -58,11 +56,11 @@ class RemoveCoordinateScreen : Screen(Text.of("Remove Coordinate")) {
         for (i in coordinates.indices) {
             val coordinate = coordinates[i]
             val deleteButton = TexturedButtonWidget(
-                buttonX, lineHeight * i + 4,
+                buttonX, lineHeight * i + Config.yOffset,
                 9, 9,
                 0, 0,
                 9,
-                Identifier("simple_coordinate_list", "textures/delete.png"),
+                Identifier(Main.MOD_ID, "textures/delete.png"),
                 9,
                 18
             ) {

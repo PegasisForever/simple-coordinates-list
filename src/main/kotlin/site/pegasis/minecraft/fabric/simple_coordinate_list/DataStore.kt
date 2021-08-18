@@ -34,14 +34,14 @@ object Vec3dSerializer : KSerializer<Vec3d> {
 sealed class WorldIdentifier {
     @Serializable
     data class Local(val saveDir: String, val worldName: String) : WorldIdentifier() {
-        override fun getJSONFile() = File(saveDir, "simple_coordinate_list/${worldName.toSafeBase64()}.json")
+        override fun getJSONFile() = File(saveDir, "${site.pegasis.minecraft.fabric.simple_coordinate_list.Main.MOD_ID}/${worldName.toSafeBase64()}.json")
     }
 
     @Serializable
     data class Server(val serverName: String, val serverAddress: String, val worldName: String) : WorldIdentifier() {
         override fun getJSONFile(): File {
             val name = "${serverName}|||${serverAddress}|||${worldName}".toSafeBase64()
-            return File(FabricLoader.getInstance().configDir.toString(), "simple_coordinate_list/servers/${name}.json")
+            return File(FabricLoader.getInstance().configDir.toString(), "${Main.MOD_ID}/servers/${name}.json")
         }
     }
 

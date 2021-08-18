@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "simple_coordinate_list",
-  "version": "${version}",
+  "version": "1.0.0",
   "name": "Simple Coordinate List",
   "description": "Allow you to save coordinates to a list",
   "authors": [
@@ -21,6 +21,9 @@
         "adapter": "kotlin",
         "value": "site.pegasis.minecraft.fabric.simple_coordinate_list.Main"
       }
+    ],
+    "modmenu": [
+      "site.pegasis.minecraft.fabric.simple_coordinate_list.config.ModMenu"
     ]
   },
   "mixins": [
