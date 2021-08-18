@@ -6,10 +6,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
-import site.pegasis.minecraft.fabric.simple_coordinate_list.CoordinateItem
-import site.pegasis.minecraft.fabric.simple_coordinate_list.DataStore
-import site.pegasis.minecraft.fabric.simple_coordinate_list.getWidth
-import site.pegasis.minecraft.fabric.simple_coordinate_list.toHumanText
+import site.pegasis.minecraft.fabric.simple_coordinate_list.*
 
 
 class AddCoordinateScreen(private val pos: Vec3d) : Screen(Text.of("Add Coordinate")) {
@@ -29,7 +26,7 @@ class AddCoordinateScreen(private val pos: Vec3d) : Screen(Text.of("Add Coordina
         val addButton = kotlin.run {
             val buttonWidth = 100
             ButtonWidget((width - buttonWidth) / 2, 135, 100, 20, Text.of("Add to List")) {
-                DataStore.coordinates.add(CoordinateItem(pos, labelTextField.text))
+                DataStore.addCoordinate(WorldIdentifier.from(client!!), CoordinateItem(pos, labelTextField.text))
                 client!!.setScreen(null)
             }
         }

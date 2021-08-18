@@ -10,14 +10,12 @@ import site.pegasis.minecraft.fabric.simple_coordinate_list.screens.AddCoordinat
 object Main : ClientModInitializer {
     override fun onInitializeClient() {
         println("Initializing Simple Coordinate List.....")
-
         val addToListKey = KeyBindingHelper.registerKeyBinding(KeyBinding("key.simple_coordinate_list.add_to_list", GLFW.GLFW_KEY_SEMICOLON, "key.category.simple_coordinate_list"))
 
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             client.player ?: return@register
 
             if (addToListKey.wasPressed()) {
-//                DataStore.coordinates.add(client.player!!.pos)
                 client.setScreen(AddCoordinateScreen(client.player!!.pos))
             }
         }
