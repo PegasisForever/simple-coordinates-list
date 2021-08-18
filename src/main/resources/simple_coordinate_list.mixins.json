@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "site.pegasis.minecraft.fabric.simple_coordinate_list.mixins",
+  "compatibilityLevel": "JAVA_16",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": []
+}
