@@ -11,7 +11,7 @@ import site.pegasis.minecraft.fabric.simple_coordinate_list.screens.RemoveCoordi
 import site.pegasis.minecraft.fabric.simple_coordinate_list.screens.getCoordinates
 
 object Main : ClientModInitializer {
-    val MOD_ID = "simple_coordinate_list"
+    const val MOD_ID = "simple_coordinate_list"
 
     override fun onInitializeClient() {
         println("Initializing Simple Coordinate List.....")

@@ -34,7 +34,7 @@ object Vec3dSerializer : KSerializer<Vec3d> {
 sealed class WorldIdentifier {
     @Serializable
     data class Local(val saveDir: String, val worldName: String) : WorldIdentifier() {
-        override fun getJSONFile() = File(saveDir, "${site.pegasis.minecraft.fabric.simple_coordinate_list.Main.MOD_ID}/${worldName.toSafeBase64()}.json")
+        override fun getJSONFile() = File(saveDir, "${Main.MOD_ID}/${worldName.toSafeBase64()}.json")
     }
 
     @Serializable

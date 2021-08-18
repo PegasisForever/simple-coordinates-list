@@ -5,11 +5,12 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 import site.pegasis.minecraft.fabric.simple_coordinate_list.*
 import site.pegasis.minecraft.fabric.simple_coordinate_list.config.Config
 
-class RemoveCoordinateScreen : Screen(Text.of("Remove Coordinate")) {
+class RemoveCoordinateScreen : Screen(TranslatableText("simple_coordinate_list.gui.manage_coordinate")) {
     private val deleteButtons = arrayListOf<TexturedButtonWidget>()
     private val buttonX by lazy {
         val coordinates = getCoordinates(client!!)
@@ -31,7 +32,7 @@ class RemoveCoordinateScreen : Screen(Text.of("Remove Coordinate")) {
     override fun isPauseScreen() = false
 
     override fun init() {
-        val backButton = ButtonWidget(10, 10, 50, 20, Text.of("< Back")) {
+        val backButton = ButtonWidget(10, 10, 50, 20, TranslatableText("simple_coordinate_list.gui.back")) {
             client!!.setScreen(null)
         }
         addDrawableChild(backButton)

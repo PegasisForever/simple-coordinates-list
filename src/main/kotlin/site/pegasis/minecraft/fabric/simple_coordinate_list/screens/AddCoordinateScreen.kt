@@ -5,29 +5,30 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.Vec3d
 import site.pegasis.minecraft.fabric.simple_coordinate_list.*
 
 
-class AddCoordinateScreen(private val pos: Vec3d) : Screen(Text.of("Add Coordinate")) {
+class AddCoordinateScreen(private val pos: Vec3d) : Screen(TranslatableText("simple_coordinate_list.gui.add_coordinate")) {
     override fun isPauseScreen() = false
 
     override fun init() {
         val labelTextField = kotlin.run {
             val textFieldWidth = 300
-            TextFieldWidget(textRenderer, (width - textFieldWidth) / 2, 100, textFieldWidth, 20, Text.of("Label"))
+            TextFieldWidget(textRenderer, (width - textFieldWidth) / 2, 100, textFieldWidth, 20, TranslatableText("simple_coordinate_list.gui.add_to_list"))
         }
         addDrawableChild(labelTextField)
         setInitialFocus(labelTextField)
 
-        val backButton = ButtonWidget(10, 10, 50, 20, Text.of("< Back")) {
+        val backButton = ButtonWidget(10, 10, 50, 20, TranslatableText("simple_coordinate_list.gui.back")) {
             client!!.setScreen(null)
         }
         addDrawableChild(backButton)
 
         val addButton = kotlin.run {
             val buttonWidth = 100
-            ButtonWidget((width - buttonWidth) / 2, 135, 100, 20, Text.of("Add to List")) {
+            ButtonWidget((width - buttonWidth) / 2, 135, 100, 20, TranslatableText("simple_coordinate_list.gui.add_to_list")) {
                 DataStore.addCoordinate(WorldIdentifier.from(client!!), CoordinateItem(pos, labelTextField.text))
                 client!!.setScreen(null)
             }
