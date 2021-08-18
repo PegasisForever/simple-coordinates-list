@@ -8,8 +8,8 @@ import net.minecraft.util.Identifier
 import site.pegasis.minecraft.fabric.simple_coordinate_list.*
 
 fun renderHUD(matrixStack: MatrixStack,client: MinecraftClient,scaledWidth: Int){
-    val coordinates = DataStore.coordinates[WorldIdentifier.from(client)]
-    if (!client.options.debugEnabled && coordinates?.isNotEmpty() == true) {
+    val coordinates = DataStore.getCoordinates(WorldIdentifier.from(client))
+    if (!client.options.debugEnabled && coordinates.isNotEmpty()) {
         RenderSystem.enableBlend()
         val labelLines = coordinates.map { (_, label) ->
             if (label.isEmpty()) {

@@ -5,9 +5,11 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.math.Vec3d
+import java.io.File
 
 @Serializable
 @SerialName("Vec3d")
@@ -31,13 +33,23 @@ object Vec3dSerializer : KSerializer<Vec3d> {
 @Serializable
 sealed class WorldIdentifier {
     @Serializable
-    data class Local(val saveDir: String, val worldName: String) : WorldIdentifier()
+    data class Local(val saveDir: String, val worldName: String) : WorldIdentifier() {
+        override fun getJSONFile() = File(saveDir, "simple_coordinate_list/${worldName.toSafeBase64()}.json")
+    }
 
     @Serializable
-    data class Server(val serverName: String, val serverAddress: String, val worldName: String) : WorldIdentifier()
+    data class Server(val serverName: String, val serverAddress: String, val worldName: String) : WorldIdentifier() {
+        override fun getJSONFile(): File {
+            val name = "${serverName}|||${serverAddress}|||${worldName}".toSafeBase64()
+            return File(FabricLoader.getInstance().configDir.toString(), "simple_coordinate_list/servers/${name}.json")
+        }
+    }
+
+    abstract fun getJSONFile(): File
 
     companion object {
         fun from(client: MinecraftClient): WorldIdentifier {
+
             return if (client.isIntegratedServerRunning) {
                 Local(
                     client.server!!.getSavePath(WorldSavePath.ROOT).toString(),
@@ -63,21 +75,41 @@ object DataStore {
         allowStructuredMapKeys = true
     }
 
-    var coordinates: HashMap<WorldIdentifier, ArrayList<CoordinateItem>> = kotlin.run {
-        serializer.decodeFromString("""[{"type":"site.pegasis.minecraft.fabric.simple_coordinate_list.WorldIdentifier.Local","saveDir":"/home/pegasis/Projects/McProjects/simple-coordinate-list/run/./saves/New World/.","worldName":"overworld"},[{"pos":{"x":-63.92433140697427,"y":71.0,"z":280.79791663017664},"label":"aaa"},{"pos":{"x":-56.87575674104418,"y":70.0,"z":299.3425524517237},"label":"bwbasda"}],{"type":"site.pegasis.minecraft.fabric.simple_coordinate_list.WorldIdentifier.Server","serverName":"Minecraft Server","serverAddress":"localhost","worldName":"overworld"},[{"pos":{"x":198.5,"y":63.0,"z":91.5},"label":"aaa aserver"}]]""")
+    private var coordinateCache = hashMapOf<WorldIdentifier, ArrayList<CoordinateItem>>()
+
+    fun getCoordinates(identifier: WorldIdentifier): List<CoordinateItem> {
+        if (coordinateCache[identifier] == null) {
+            try {
+                val jsonFile = identifier.getJSONFile()
+                if (jsonFile.exists()) {
+                    val coordinateList: ArrayList<CoordinateItem> = serializer.decodeFromString(jsonFile.readText())
+                    coordinateCache[identifier] = coordinateList
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
+
+            if (coordinateCache[identifier] == null) {
+                coordinateCache[identifier] = arrayListOf()
+            }
+        }
+
+        return coordinateCache[identifier]!!
     }
 
     fun addCoordinate(identifier: WorldIdentifier, coordinateItem: CoordinateItem) {
-        var list = coordinates[identifier]
+        var list = coordinateCache[identifier]
         if (list == null) {
             list = arrayListOf()
-            coordinates[identifier] = list
+            coordinateCache[identifier] = list
         }
         list.add(coordinateItem)
-        save()
-    }
 
-    private fun save() {
-        println(serializer.encodeToString(coordinates))
+        val jsonFile = identifier.getJSONFile()
+        if (!jsonFile.exists()) {
+            jsonFile.parentFile?.mkdirs()
+            jsonFile.createNewFile()
+        }
+        jsonFile.writeText(serializer.encodeToString(list))
     }
 }
